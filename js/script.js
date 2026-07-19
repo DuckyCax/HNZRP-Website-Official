@@ -7,7 +7,7 @@
     "use strict";
 
     const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const EDIT_STORAGE_KEY = `hnzrp_site_edits_v3:${location.pathname}`;
+    const EDIT_STORAGE_KEY = `hnzrp_site_edits:${location.pathname}`;
 
     document.addEventListener("DOMContentLoaded", () => {
         initEditMode();

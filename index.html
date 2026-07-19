@@ -1,169 +1,482 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Hamilton New Zealand Roleplay — an immersive emergency services roleplay community.">
-  <title>HNZRP | Hamilton New Zealand Roleplay</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <link rel="stylesheet" href="css/homepage.css?v=20260719d">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HNZRP | Departments</title>
+
+    <link rel="stylesheet" href="css/style.css?v=20260720glass">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
 </head>
+
+
 <body>
-  <div id="loader" aria-hidden="true"><div class="loader-mark"><span>HNZRP</span><i></i></div></div>
-  <div id="progressBar" aria-hidden="true"></div>
 
-  <header class="site-header" id="siteHeader">
-    <div class="shell nav-shell">
-      <a class="brand" href="index.html" aria-label="HNZRP home">
-        <span class="brand-mark">HN</span>
-        <span><strong>HNZRP</strong><small>Hamilton New Zealand Roleplay</small></span>
-      </a>
 
-      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+<!-- ================= NAVBAR ================= -->
 
-      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-        <a class="active" href="index.html">Home</a>
-        <div class="nav-dropdown">
-          <button class="dropdown-toggle" type="button" aria-expanded="false">Departments <i class="fa-solid fa-chevron-down"></i></button>
-          <div class="dropdown-panel">
-            <a href="police.html"><i class="fa-solid fa-shield-halved"></i><span>New Zealand Police<small>Law enforcement and public safety</small></span></a>
-            <a href="fire.html"><i class="fa-solid fa-fire-extinguisher"></i><span>Fire & Emergency<small>Fire, rescue and specialist response</small></span></a>
-            <a href="ambulance.html"><i class="fa-solid fa-truck-medical"></i><span>Ambulance NZ<small>Emergency medical response</small></span></a>
-            <a href="communications.html"><i class="fa-solid fa-headset"></i><span>Communications<small>Dispatch and operational coordination</small></span></a>
-          </div>
-        </div>
-        <a href="police-leadership.html">Leadership</a>
-        <a href="applications.html">Applications</a>
-        <a href="#about">About</a>
-      </nav>
+<header class="navbar">
 
-      <a class="nav-cta" href="https://discord.gg/mnymQkXZ8" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Join Discord</a>
+    <div class="logo">
+        Hamilton New Zealand Roleplay
     </div>
-  </header>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="hero-grid" aria-hidden="true"></div>
-      <div class="hero-orb orb-one" aria-hidden="true"></div>
-      <div class="hero-orb orb-two" aria-hidden="true"></div>
-      <div class="shell hero-layout">
-        <div class="hero-copy reveal">
-          <span class="eyebrow"><i></i> New Zealand emergency services roleplay</span>
-          <h1>Protect.<br><span>Serve.</span> Lead.</h1>
-          <p>Step into a structured, immersive community where Police, Fire, Ambulance and Communications work together through realistic operations, training and progression.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="https://discord.gg/mnymQkXZ8" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Join HNZRP</a>
-            <a class="button button-ghost" href="#departments">Explore departments <i class="fa-solid fa-arrow-down"></i></a>
-          </div>
-          <div class="hero-trust"><span><i class="fa-solid fa-circle-check"></i> Structured training</span><span><i class="fa-solid fa-circle-check"></i> Active operations</span><span><i class="fa-solid fa-circle-check"></i> Career progression</span></div>
+    <nav>
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="#">Home</a>
+            </li>
+
+            <li class="dropdown">
+
+                <a href="#departments">Departments ▾</a>
+
+                <ul class="dropdown-menu">
+
+                    <li>
+                        <a href="police.html">New Zealand Police</a>
+                    </li>
+
+                    <li>
+                        <a href="fire.html">Fire and Emergency New Zealand</a>
+                    </li>
+
+                    <li>
+                        <a href="ambulance.html">HHSTJ Ambulance New Zealand</a>
+                    </li>
+
+                    <li>
+                        <a href="communications.html">New Zealand Communications</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Staff</a>
+                    </li>
+
+                    <li class="divider"></li>
+
+                </ul>
+
+            </li>
+
+            <li>
+                <a href="applications.html">Applications</a>
+            </li>
+
+            <li>
+                <a href="#">About</a>
+            </li>
+
+            <li>
+                <a href="#">Staff</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+    <a href="https://discord.gg/mnymQkXZ8" class="discord-button">
+        Join Discord
+    </a>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <span class="badge">
+            HNZRP - HAMILTON NEW ZEALAND ROLEPLAY
+        </span>
+
+        <h1>
+            Emergency Services<br>
+            Built For Realism
+        </h1>
+
+        <p>
+            Experience realistic emergency services roleplay
+            with dedicated departments, leadership structures,
+            and an active community.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#departments" class="primary-btn">
+                View Departments
+            </a>
+
+            <a href="applications.html" class="secondary-btn">
+                Apply Now
+            </a>
+
         </div>
 
-        <aside class="operations-card reveal" aria-label="Community overview">
-          <div class="operations-head"><span><i class="status-dot"></i> Community online</span><small>HNZRP NETWORK</small></div>
-          <div class="operations-visual">
-            <div class="radar"><span></span><span></span><span></span><i class="fa-solid fa-location-crosshairs"></i></div>
-            <div class="unit unit-a"><i class="fa-solid fa-shield-halved"></i> Police</div>
-            <div class="unit unit-b"><i class="fa-solid fa-fire-flame-curved"></i> Fire</div>
-            <div class="unit unit-c"><i class="fa-solid fa-truck-medical"></i> Medical</div>
-          </div>
-          <div class="operations-stats">
-            <div><strong data-count="3500" data-suffix="+">0</strong><span>Members</span></div>
-            <div><strong data-count="4">0</strong><span>Departments</span></div>
-            <div><strong>6PM</strong><span>NZST SSU</span></div>
-          </div>
-        </aside>
-      </div>
-      <a class="scroll-cue" href="#departments" aria-label="Scroll to departments"><span></span>Scroll to explore</a>
-    </section>
-
-    <section class="quick-strip" aria-label="Community highlights">
-      <div class="shell quick-grid">
-        <div><i class="fa-solid fa-users"></i><span><strong>Active community</strong><small>Members online every day</small></span></div>
-        <div><i class="fa-solid fa-graduation-cap"></i><span><strong>Professional training</strong><small>Structured induction and development</small></span></div>
-        <div><i class="fa-solid fa-tower-broadcast"></i><span><strong>Coordinated operations</strong><small>Multi-agency roleplay scenarios</small></span></div>
-        <div><i class="fa-solid fa-medal"></i><span><strong>Career pathways</strong><small>Promotions and specialist units</small></span></div>
-      </div>
-    </section>
-
-    <section class="section departments" id="departments">
-      <div class="shell">
-        <div class="section-heading reveal">
-          <div><span class="kicker">Our services</span><h2>Choose your department</h2></div>
-          <p>Each service has its own command structure, training pathway and operational responsibilities—while working together as one community.</p>
-        </div>
-
-        <div class="department-grid">
-          <a class="department-card police reveal" href="police.html">
-            <div class="card-top"><span>01</span><i class="fa-solid fa-shield-halved"></i></div>
-            <div class="card-content"><small>LAW ENFORCEMENT</small><h3>New Zealand Police</h3><p>Patrol communities, respond to incidents, investigate offending and join specialist operational groups.</p><span class="card-link">Explore Police <i class="fa-solid fa-arrow-right"></i></span></div>
-          </a>
-          <a class="department-card fire reveal" href="fire.html">
-            <div class="card-top"><span>02</span><i class="fa-solid fa-fire-extinguisher"></i></div>
-            <div class="card-content"><small>FIRE & RESCUE</small><h3>Fire & Emergency</h3><p>Respond to structure fires, crashes, hazardous incidents and technical rescues across the region.</p><span class="card-link">Explore Fire <i class="fa-solid fa-arrow-right"></i></span></div>
-          </a>
-          <a class="department-card ambulance reveal" href="ambulance.html">
-            <div class="card-top"><span>03</span><i class="fa-solid fa-truck-medical"></i></div>
-            <div class="card-content"><small>EMERGENCY MEDICAL</small><h3>Ambulance New Zealand</h3><p>Assess patients, deliver realistic pre-hospital care and coordinate urgent medical transport.</p><span class="card-link">Explore Ambulance <i class="fa-solid fa-arrow-right"></i></span></div>
-          </a>
-          <a class="department-card comms reveal" href="communications.html">
-            <div class="card-top"><span>04</span><i class="fa-solid fa-headset"></i></div>
-            <div class="card-content"><small>DISPATCH & CONTROL</small><h3>Communications</h3><p>Manage emergency calls, dispatch resources and maintain clear operational communications.</p><span class="card-link">Explore Comms <i class="fa-solid fa-arrow-right"></i></span></div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section about" id="about">
-      <div class="shell about-grid">
-        <div class="about-panel reveal">
-          <span class="kicker">Why HNZRP</span>
-          <h2>Built around realism, teamwork and progression.</h2>
-          <p>HNZRP combines organised leadership with approachable training and high-quality roleplay. New members can learn the basics, build confidence and progress into advanced or leadership roles.</p>
-          <a class="text-link" href="applications.html">View current applications <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <div class="feature-list">
-          <article class="feature reveal"><span>01</span><div><h3>Realistic procedures</h3><p>Departments use clear operating standards designed to make scenes consistent and immersive.</p></div></article>
-          <article class="feature reveal"><span>02</span><div><h3>Community-led development</h3><p>Feedback, training and regular updates help the server improve alongside its members.</p></div></article>
-          <article class="feature reveal"><span>03</span><div><h3>Meaningful progression</h3><p>Build experience through ranks, qualifications, specialist units and leadership opportunities.</p></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section updates">
-      <div class="shell">
-        <div class="section-heading reveal"><div><span class="kicker">Latest updates</span><h2>From the community</h2></div><a class="text-link" href="applications.html">View applications <i class="fa-solid fa-arrow-right"></i></a></div>
-        <div class="updates-grid">
-          <article class="update-card featured reveal"><div class="update-meta"><span>RECRUITMENT</span><time>July 2026</time></div><h3>Applications are open across selected departments.</h3><p>Start your journey through a structured application and training process designed for both new and experienced roleplayers.</p><a href="applications.html">Apply now <i class="fa-solid fa-arrow-right"></i></a></article>
-          <article class="update-card reveal"><div class="update-icon"><i class="fa-solid fa-car-side"></i></div><div class="update-meta"><span>OPERATIONS</span><time>July 2026</time></div><h3>Expanded patrol and multi-agency scenarios</h3><p>New operational formats create more varied responses for every department.</p></article>
-          <article class="update-card reveal"><div class="update-icon"><i class="fa-solid fa-people-group"></i></div><div class="update-meta"><span>COMMUNITY</span><time>July 2026</time></div><h3>Training and community event weekend</h3><p>Members can join organised training sessions and large-scale collaborative scenarios.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-section">
-      <div class="shell cta-card reveal">
-        <div><span class="kicker">Start your journey</span><h2>Ready to become part of HNZRP?</h2><p>Join the community, explore available roles and begin building your emergency services career.</p></div>
-        <div class="cta-actions"><a class="button button-primary" href="https://discord.gg/mnymQkXZ8" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Join Discord</a><a class="button button-ghost" href="applications.html">Apply today</a></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-grid">
-      <div class="footer-brand"><a class="brand" href="index.html"><span class="brand-mark">HN</span><span><strong>HNZRP</strong><small>Hamilton New Zealand Roleplay</small></span></a><p>An immersive New Zealand emergency services roleplay community focused on realism, professionalism and teamwork.</p></div>
-      <div><h3>Departments</h3><a href="police.html">Police</a><a href="fire.html">Fire & Emergency</a><a href="ambulance.html">Ambulance</a><a href="communications.html">Communications</a></div>
-      <div><h3>Community</h3><a href="applications.html">Applications</a><a href="police-leadership.html">Leadership</a><a href="https://discord.gg/mnymQkXZ8" target="_blank" rel="noopener noreferrer">Discord</a></div>
-      <div><h3>Connect</h3><div class="socials"><a href="https://discord.gg/mnymQkXZ8" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fa-brands fa-discord"></i></a><a href="https://github.com/DuckyCax/HNZRP-Website-Official" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a></div></div>
     </div>
-    <div class="shell footer-bottom"><span>© <span id="year"></span> HNZRP. All rights reserved.</span><span>Community roleplay project — not affiliated with real emergency services.</span></div>
-  </footer>
 
-  <button id="backToTop" class="back-top" type="button" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
-  <script src="js/homepage.js?v=20260719d"></script>
+</section>
+
+
+<!-- ================= FLOATING CONTENT ================= -->
+
+<main class="content-wrapper">
+
+<!-- SEARCH -->
+
+<section class="search-section">
+
+    <input 
+        id="search"
+        type="text"
+        placeholder="Search departments..."
+    >
+
+    <select id="filter">
+
+        <option value="all">
+            All Departments
+        </option>
+
+        <option value="Emergency">
+            Emergency
+        </option>
+
+        <option value="Support">
+            Support
+        </option>
+
+    </select>
+
+</section>
+
+
+<!-- STATS -->
+
+<section class="stats">
+
+    <div class="stat">
+
+        <h2>
+            4
+        </h2>
+
+        <p>
+            Departments
+        </p>
+
+    </div>
+
+    <div class="stat">
+
+        <h2>
+            3500+
+        </h2>
+
+        <p>
+            Members
+        </p>
+
+    </div>
+
+    <div class="stat">
+
+        <h2>
+            6PM
+        </h2>
+
+        <p>
+            NZST SSU
+        </p>
+
+    </div>
+
+    <div class="stat">
+
+        <h2>
+            100%
+        </h2>
+
+        <p>
+            Custom Systems
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section-intro">
+    <p>Departments</p>
+    <h2>Find your role in Hamilton</h2>
+    <p>Every department is monitored by leadership and moderation. Choose the one that matches your playstyle and jump straight into onboarding.</p>
+</section>
+
+
+<!-- ================= DEPARTMENT CARDS ================= -->
+
+<section id="departments" class="departments-grid">
+
+<article class="department-card" data-category="Emergency">
+
+    <div class="card-image-placeholder">
+        <span>📸 Drop Image Here</span>
+    </div>
+    <img src="assets/police.jpg" alt="Police">
+
+    <div class="department-info">
+
+        <div class="department-header">
+            <div class="department-code">HNPD</div>
+            <div class="status-badge hiring">Hiring</div>
+        </div>
+
+        <h2>New Zealand Police</h2>
+
+        <p>Protecting the community through patrol, investigations and emergency response. Join our professional law enforcement team.</p>
+
+        <ul class="department-links">
+            <li>
+                <a href="https://discord.gg/fBH7hbH9Q" class="department-discord-link">
+                    <span class="action-link-icon">💬</span>
+                    Department Discord
+                </a>
+            </li>
+        </ul>
+
+        <div class="department-actions">
+            <a href="https://discord.gg/fBH7hbH9Q" class="btn-primary">Apply to NZP</a>
+            <a href="https://discord.gg/mnymQkXZ8" class="btn-secondary">Join the Discord</a>
+            <a href="police.html" class="btn-tertiary">Department Page</a>
+        </div>
+
+    </div>
+
+</article>
+
+
+<article class="department-card" data-category="Emergency">
+
+    <div class="card-image-placeholder">
+        <span>📸 Drop Image Here</span>
+    </div>
+    <img src="assets/fire.jpg" alt="Fire">
+
+    <div class="department-info">
+
+        <div class="department-header">
+            <div class="department-code">HNFD</div>
+            <div class="status-badge hiring">Hiring</div>
+        </div>
+
+        <h2>Fire and Emergency New Zealand</h2>
+
+        <p>Responding to fires, rescues and hazardous situations. Dedicated to saving lives and protecting the community.</p>
+
+        <ul class="department-links">
+            <li>
+                <a href="https://discord.gg/SKmp6kE37" class="department-discord-link">
+                    <span class="action-link-icon">💬</span>
+                    Department Discord
+                </a>
+            </li>
+        </ul>
+
+        <div class="department-actions">
+            <a href="https://discord.gg/SKmp6kE37" class="btn-primary">Apply to FENZ</a>
+            <a href="https://discord.gg/mnymQkXZ8" class="btn-secondary">Join the Discord</a>
+            <a href="fire.html" class="btn-tertiary">Department Page</a>
+        </div>
+
+    </div>
+
+</article>
+
+
+<article class="department-card" data-category="Emergency">
+
+    <div class="card-image-placeholder">
+        <span>📸 Drop Image Here</span>
+    </div>
+    <img src="assets/ambulance.jpg" alt="Ambulance">
+
+    <div class="department-info">
+
+        <div class="department-header">
+            <div class="department-code">HNEMS</div>
+            <div class="status-badge hiring">Hiring</div>
+        </div>
+
+        <h2>HHSTJ Ambulance New Zealand</h2>
+
+        <p>Providing emergency medical care and patient transport. Professional healthcare responders serving the community.</p>
+
+        <ul class="department-links">
+            <li>
+                <a href="https://discord.gg/BgagkgWq4" class="department-discord-link">
+                    <span class="action-link-icon">💬</span>
+                    Department Discord
+                </a>
+            </li>
+        </ul>
+
+        <div class="department-actions">
+            <a href="https://discord.gg/BgagkgWq4" class="btn-primary">Apply to HHSTJ</a>
+            <a href="https://discord.gg/mnymQkXZ8" class="btn-secondary">Join the Discord</a>
+            <a href="ambulance.html" class="btn-tertiary">Department Page</a>
+        </div>
+
+    </div>
+
+</article>
+
+
+<article class="department-card" data-category="Support">
+
+    <div class="card-image-placeholder">
+        <span>📸 Drop Image Here</span>
+    </div>
+    <img src="assets/comms.jpg" alt="Communications">
+
+    <div class="department-info">
+
+        <div class="department-header">
+            <div class="department-code">HNECC</div>
+            <div class="status-badge selective">Selective</div>
+        </div>
+
+        <h2>New Zealand Communications</h2>
+
+        <p>Managing dispatch, call handling and emergency coordination. Be the voice that saves lives across the city.</p>
+
+        <ul class="department-links">
+            <li>
+                <a href="https://discord.gg/fBH7hbH9Q" class="department-discord-link">
+                    <span class="action-link-icon">💬</span>
+                    Department Discord
+                </a>
+            </li>
+        </ul>
+
+        <div class="department-actions">
+            <a href="https://discord.gg/fBH7hbH9Q" class="btn-primary">Apply to NZC</a>
+            <a href="https://discord.gg/mnymQkXZ8" class="btn-secondary">Join the Discord</a>
+            <a href="communications.html" class="btn-tertiary">Department Page</a>
+        </div>
+
+    </div>
+
+</article>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+    <p class="cta-kicker">
+        Ready when you are
+    </p>
+
+    <h2>
+        Ready To Join?
+    </h2>
+
+    <p>
+        Become part of a professional emergency services
+        roleplay organisation today.
+    </p>
+
+    <a href="applications.html" class="primary-btn">
+        Start Application
+    </a>
+
+    <a href="#departments" class="secondary-btn">
+        Browse Departments
+    </a>
+
+</section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <div class="footer-grid">
+
+            <div class="footer-branding">
+                <h3>
+                    HNZRP
+                </h3>
+
+                <p>
+                    Hamilton New Zealand Roleplay is a community-first emergency services experience focused on realism, respectful roleplay, and active support.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h4>
+                    Explore
+                </h4>
+
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="#departments">Departments</a>
+                    <a href="applications.html">Applications</a>
+                    <a href="#">Staff Team</a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h4>
+                    Community
+                </h4>
+
+                <div class="community-links">
+                    <a href="https://discord.gg/mnymQkXZ8" class="community-link-card">
+                        <span>Join Discord</span>
+                        <small>discord.gg/mnymQkXZ8</small>
+                    </a>
+                    <a href="https://discord.gg/fBH7hbH9Q" class="community-link-card">
+                        <span>NZ Police Discord</span>
+                        <small>Department Hub</small>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <p class="copyright">
+
+        © 2026 HNZRP. All Rights Reserved.
+
+    </p>
+
+</footer>
+
+<script src="js/script.js?v=20260720glass"></script>
+
 </body>
+
 </html>
