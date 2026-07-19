@@ -1,502 +1,396 @@
 /* ==========================================================
-   NZRP WEBSITE
-   SCRIPT.JS
+   HNZRP WEBSITE
+   CLEAN + OPTIMIZED SCRIPT
 ========================================================== */
 
-/* ==========================================================
-   EDIT MODE
-========================================================== */
+(function () {
+    "use strict";
 
-let editMode = false;
+    const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const EDIT_STORAGE_KEY = `hnzrp_site_edits:${location.pathname}`;
 
-// Create edit button
-const editButton = document.createElement('button');
-editButton.textContent = 'Edit Mode';
-editButton.style.cssText = `
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    padding: 12px 24px;
-    background: #ff6b35;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    z-index: 999;
-    transition: .25s;
-`;
+    document.addEventListener("DOMContentLoaded", () => {
+        initEditMode();
+        initNavbarState();
+        initDepartmentFilter();
+        initCardReveal();
+        initSmoothScroll();
+        initActiveNav();
+        initStatCounters();
+        initHeroParallax();
+        detectDepartmentImages();
+    });
 
-editButton.addEventListener('mouseenter', () => {
-    editButton.style.background = '#ff8555';
-});
+    function initEditMode() {
+        const controls = document.createElement("div");
+        controls.className = "edit-controls";
 
-editButton.addEventListener('mouseleave', () => {
-    editButton.style.background = '#ff6b35';
-});
+        const editButton = document.createElement("button");
+        editButton.className = "edit-toggle";
+        editButton.textContent = "Edit Mode";
 
-editButton.addEventListener('click', toggleEditMode);
+        const saveButton = document.createElement("button");
+        saveButton.className = "edit-save";
+        saveButton.textContent = "Save Changes";
 
-document.body.appendChild(editButton);
+        controls.append(editButton, saveButton);
+        document.body.appendChild(controls);
 
-// Create save button (hidden by default)
-const saveButton = document.createElement('button');
-saveButton.textContent = 'Save Changes';
-saveButton.style.cssText = `
-    position: fixed;
-    top: 100px;
-    right: 180px;
-    padding: 12px 24px;
-    background: #22bb33;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    z-index: 999;
-    transition: .25s;
-    display: none;
-`;
+        let editMode = false;
+        const editableSelectors = "h1, h2, h3, p, span";
+        const editableMap = new Map();
 
-saveButton.addEventListener('mouseenter', () => {
-    saveButton.style.background = '#2dd942';
-});
+        restoreSavedEdits();
 
-saveButton.addEventListener('mouseleave', () => {
-    saveButton.style.background = '#22bb33';
-});
+        editButton.addEventListener("click", () => {
+            editMode = !editMode;
 
-saveButton.addEventListener('click', saveAllChanges);
+            if (editMode) {
+                editButton.textContent = "Exit Edit";
+                editButton.style.background = "#2bbb53";
+                saveButton.style.display = "inline-flex";
+                enableEditing();
+            } else {
+                editButton.textContent = "Edit Mode";
+                editButton.style.background = "#f18d2f";
+                saveButton.style.display = "none";
+                disableEditing();
+            }
+        });
 
-document.body.appendChild(saveButton);
+        saveButton.addEventListener("click", () => {
+            const edits = {};
+            editableMap.forEach((el, selector) => {
+                edits[selector] = el.textContent;
+            });
+            localStorage.setItem(EDIT_STORAGE_KEY, JSON.stringify(edits));
 
-// Restore edits on page load
-window.addEventListener('load', restoreSavedEdits);
+            const originalLabel = saveButton.textContent;
+            saveButton.textContent = "Saved";
+            saveButton.style.background = "#209545";
 
-function restoreSavedEdits() {
-    const savedData = localStorage.getItem('hnzrp_site_edits');
-    if (savedData) {
-        try {
-            const edits = JSON.parse(savedData);
-            Object.entries(edits).forEach(([selector, content]) => {
-                const el = document.querySelector(selector);
-                if (el) {
-                    el.textContent = content;
+            window.setTimeout(() => {
+                saveButton.textContent = originalLabel;
+                saveButton.style.background = "#2bbb53";
+            }, 1200);
+        });
+
+        function restoreSavedEdits() {
+            const raw = localStorage.getItem(EDIT_STORAGE_KEY);
+            if (!raw) {
+                return;
+            }
+
+            try {
+                const saved = JSON.parse(raw);
+                Object.entries(saved).forEach(([selector, value]) => {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        element.textContent = value;
+                    }
+                });
+            } catch (err) {
+                console.error("Failed to restore saved edits", err);
+            }
+        }
+
+        function enableEditing() {
+            document.querySelectorAll(editableSelectors).forEach((el) => {
+                if (shouldSkipEditable(el)) {
+                    return;
+                }
+
+                const selector = generateSelector(el);
+                editableMap.set(selector, el);
+                el.classList.add("editable-active");
+                el.addEventListener("click", makeEditable);
+            });
+        }
+
+        function disableEditing() {
+            editableMap.forEach((el) => {
+                el.classList.remove("editable-active");
+                el.removeEventListener("click", makeEditable);
+            });
+        }
+
+        function shouldSkipEditable(el) {
+            return (
+                el.closest(".logo") ||
+                el.closest(".nav-links") ||
+                el.closest(".discord-button") ||
+                el.closest("button") ||
+                el.closest("footer") ||
+                el.closest(".edit-controls")
+            );
+        }
+
+        function makeEditable(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const current = event.currentTarget;
+            const selector = generateSelector(current);
+            const originalText = current.textContent;
+
+            const input = document.createElement("textarea");
+            const computed = window.getComputedStyle(current);
+            input.value = originalText;
+            input.style.width = "100%";
+            input.style.minHeight = "44px";
+            input.style.padding = "10px";
+            input.style.borderRadius = "8px";
+            input.style.border = "2px solid #2ea4ff";
+            input.style.background = "#0d1a27";
+            input.style.color = "#eef6ff";
+            input.style.fontFamily = computed.fontFamily;
+            input.style.fontSize = computed.fontSize;
+            input.style.fontWeight = computed.fontWeight;
+            input.style.lineHeight = computed.lineHeight;
+            input.style.resize = "vertical";
+
+            current.replaceWith(input);
+            input.focus();
+            input.select();
+
+            const saveEdit = () => {
+                const nextText = input.value.trim() || originalText;
+                current.textContent = nextText;
+                input.replaceWith(current);
+                current.classList.add("editable-active");
+                current.addEventListener("click", makeEditable);
+                editableMap.set(selector, current);
+            };
+
+            input.addEventListener("blur", saveEdit, { once: true });
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    saveEdit();
                 }
             });
-        } catch (e) {
-            console.error('Error restoring edits:', e);
         }
     }
-}
 
-function toggleEditMode() {
-    editMode = !editMode;
-    
-    if (editMode) {
-        editButton.textContent = '✓ Exit Edit';
-        editButton.style.background = '#22bb33';
-        saveButton.style.display = 'block';
-        enableEditing();
-    } else {
-        editButton.textContent = 'Edit Mode';
-        editButton.style.background = '#ff6b35';
-        saveButton.style.display = 'none';
-        disableEditing();
-    }
-}
-
-let editableElements = new Map();
-
-function enableEditing() {
-    // Track all editable elements with unique selectors
-    document.querySelectorAll('h1, h2, h3, p, span').forEach((el) => {
-        if (el.closest('.logo') || el.closest('.nav-links') || el.closest('.discord-button') || el.closest('button') || el.closest('footer')) return;
-        
-        // Generate unique selector
-        const selector = generateUniqueSelector(el);
-        editableElements.set(selector, el);
-        
-        el.style.cursor = 'pointer';
-        el.style.outline = '2px dashed rgba(33,136,255,.5)';
-        el.style.padding = '5px';
-        el.style.backgroundColor = 'rgba(33,136,255,.1)';
-        el.addEventListener('click', makeEditable);
-    });
-}
-
-function disableEditing() {
-    editableElements.forEach((el) => {
-        el.style.cursor = 'default';
-        el.style.outline = 'none';
-        el.style.padding = '0';
-        el.style.backgroundColor = '';
-        el.removeEventListener('click', makeEditable);
-    });
-}
-
-function generateUniqueSelector(el) {
-    let path = [];
-    let current = el;
-    
-    while (current.parentElement) {
-        let index = 0;
-        let sibling = current;
-        
-        while (sibling.previousElementSibling) {
-            sibling = sibling.previousElementSibling;
-            index++;
-        }
-        
-        let selector = current.tagName.toLowerCase();
-        if (current.id) {
-            selector += '#' + current.id;
-            path.unshift(selector);
-            break;
-        } else if (current.className) {
-            selector += '.' + current.className.split(' ').join('.');
-        }
-        
-        path.unshift(selector);
-        current = current.parentElement;
-    }
-    
-    return path.join(' > ');
-}
-
-function makeEditable(e) {
-    e.stopPropagation();
-    const el = e.target;
-    const originalText = el.textContent;
-    const selector = generateUniqueSelector(el);
-    
-    const input = document.createElement('textarea');
-    input.value = originalText;
-    input.style.cssText = `
-        width: 100%;
-        padding: 10px;
-        font-size: ${window.getComputedStyle(el).fontSize};
-        font-weight: ${window.getComputedStyle(el).fontWeight};
-        font-family: ${window.getComputedStyle(el).fontFamily};
-        border: 2px solid #2188ff;
-        border-radius: 8px;
-        background: #0d161f;
-        color: white;
-        resize: vertical;
-        z-index: 1000;
-    `;
-    
-    el.replaceWith(input);
-    input.focus();
-    input.select();
-    
-    function saveEdit() {
-        const newText = input.value.trim();
-        el.textContent = newText || originalText;
-        input.replaceWith(el);
-        
-        // Store in memory for save button
-        editableElements.set(selector, el);
-    }
-    
-    input.addEventListener('blur', saveEdit);
-    input.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.key === 'Enter') {
-            saveEdit();
-        }
-    });
-}
-
-function saveAllChanges() {
-    const edits = {};
-    
-    editableElements.forEach((el, selector) => {
-        edits[selector] = el.textContent;
-    });
-    
-    localStorage.setItem('hnzrp_site_edits', JSON.stringify(edits));
-    
-    // Visual feedback
-    const originalText = saveButton.textContent;
-    saveButton.textContent = '✓ Saved!';
-    saveButton.style.background = '#1aa824';
-    
-    setTimeout(() => {
-        saveButton.textContent = 'Save Changes';
-        saveButton.style.background = '#22bb33';
-    }, 2000);
-}
-
-/* ==========================================================
-   NAVBAR SCROLL EFFECT
-========================================================== */
-
-const navbar = document.querySelector(".navbar");
-
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 40) {
-
-        navbar.style.background = "rgba(8,19,29,.95)";
-        navbar.style.boxShadow = "0 10px 35px rgba(0,0,0,.35)";
-
-    } else {
-
-        navbar.style.background = "rgba(7,18,28,.55)";
-        navbar.style.boxShadow = "none";
-
-    }
-
-});
-
-/* ==========================================================
-   SEARCH + FILTER
-========================================================== */
-
-const searchInput = document.getElementById("search");
-const filterSelect = document.getElementById("filter");
-
-const cards = document.querySelectorAll(".department-card");
-
-function updateDepartments() {
-
-    const search = searchInput.value.toLowerCase();
-    const filter = filterSelect.value;
-
-    cards.forEach(card => {
-
-        const title = card
-            .querySelector("h2")
-            .textContent
-            .toLowerCase();
-
-        const category = card.dataset.category;
-
-        const matchesSearch =
-            title.includes(search);
-
-        const matchesFilter =
-            filter === "all" ||
-            category === filter;
-
-        if (matchesSearch && matchesFilter) {
-
-            card.style.display = "block";
-
-        } else {
-
-            card.style.display = "none";
-
+    function initNavbarState() {
+        const navbar = document.querySelector(".navbar");
+        if (!navbar) {
+            return;
         }
 
-    });
-
-}
-
-searchInput.addEventListener(
-    "input",
-    updateDepartments
-);
-
-filterSelect.addEventListener(
-    "change",
-    updateDepartments
-);
-
-/* ==========================================================
-   FADE IN ON SCROLL
-========================================================== */
-
-const observer = new IntersectionObserver(
-
-(entries)=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.classList.add("show");
-
-}
-
-});
-
-},
-
-{
-    threshold:.15
-}
-
-);
-
-cards.forEach(card=>{
-
-observer.observe(card);
-
-});
-
-/* ==========================================================
-   SMOOTH SCROLL
-========================================================== */
-
-document.querySelectorAll('a[href^="#"]')
-.forEach(anchor=>{
-
-anchor.addEventListener("click",function(e){
-
-const target=document.querySelector(
-this.getAttribute("href")
-);
-
-if(target){
-
-e.preventDefault();
-
-target.scrollIntoView({
-
-behavior:"smooth"
-
-});
-
-}
-
-});
-
-});
-
-/* ==========================================================
-   ACTIVE NAV LINK
-========================================================== */
-
-const sections =
-document.querySelectorAll("section");
-
-const navLinks =
-document.querySelectorAll(".nav-links a");
-
-window.addEventListener("scroll",()=>{
-
-let current="";
-
-sections.forEach(section=>{
-
-const top=section.offsetTop-120;
-
-const height=section.clientHeight;
-
-if(pageYOffset>=top){
-
-current=section.getAttribute("id");
-
-}
-
-});
-
-navLinks.forEach(link=>{
-
-link.classList.remove("active");
-
-if(link.getAttribute("href")==="#"+current){
-
-link.classList.add("active");
-
-}
-
-});
-
-});
-
-/* ==========================================================
-   CARD HOVER SHADOW
-========================================================== */
-
-cards.forEach(card=>{
-
-card.addEventListener("mouseenter",()=>{
-
-card.style.boxShadow=
-"0 35px 70px rgba(0,0,0,.45)";
-
-});
-
-card.addEventListener("mouseleave",()=>{
-
-card.style.boxShadow="";
-
-});
-
-});
-
-/* ==========================================================
-   STAT COUNTER
-========================================================== */
-
-const counters =
-document.querySelectorAll(".stat h2");
-
-const counterObserver =
-new IntersectionObserver(
-
-(entries)=>{
-
-entries.forEach(entry=>{
-
-if(!entry.isIntersecting)return;
-
-const counter=entry.target;
-
-const original=counter.innerText;
-
-const number=
-parseInt(original.replace(/\D/g,""));
-
-if(isNaN(number))return;
-
-let current=0;
-
-const increment=
-Math.ceil(number/80);
-
-const timer=setInterval(()=>{
-
-current+=increment;
-
-if(current>=number){
-
-current=number;
-
-clearInterval(timer);
-
-}
-
-counter.innerText=
-original.replace(number,current);
-
-},20);
-
-counterObserver.unobserve(counter);
-
-});
-
-});
-
-counters.forEach(counter=>{
-
-counterObserver.observe(counter);
-
-});
-
-/* ==========================================================
-   OPTIONAL PARALLAX HERO
-========================================================== */
-
-const hero=document.querySelector(".hero");
-
-window.addEventListener("scroll",()=>{
-
-const offset=window.scrollY;
-
-hero.style.backgroundPosition=
-`center ${offset*0.35}px`;
-
-});
+        const update = () => {
+            navbar.classList.toggle("scrolled", window.scrollY > 16);
+        };
+
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+    }
+
+    function initDepartmentFilter() {
+        const searchInput = document.getElementById("search");
+        const filterSelect = document.getElementById("filter");
+        const cards = document.querySelectorAll(".department-card");
+
+        if (!searchInput || !filterSelect || cards.length === 0) {
+            return;
+        }
+
+        const update = () => {
+            const search = searchInput.value.trim().toLowerCase();
+            const filter = filterSelect.value;
+
+            cards.forEach((card) => {
+                const title = card.querySelector("h2")?.textContent.toLowerCase() || "";
+                const category = card.dataset.category || "";
+                const visible = title.includes(search) && (filter === "all" || filter === category);
+                card.style.display = visible ? "flex" : "none";
+            });
+        };
+
+        searchInput.addEventListener("input", update);
+        filterSelect.addEventListener("change", update);
+    }
+
+    function initCardReveal() {
+        const cards = document.querySelectorAll(".department-card");
+        if (cards.length === 0) {
+            return;
+        }
+
+        if (REDUCED_MOTION || !("IntersectionObserver" in window)) {
+            cards.forEach((card) => card.classList.add("show"));
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("show");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.18 }
+        );
+
+        cards.forEach((card) => observer.observe(card));
+    }
+
+    function initSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener("click", (e) => {
+                const href = anchor.getAttribute("href");
+                if (!href || href === "#") {
+                    return;
+                }
+
+                const target = document.querySelector(href);
+                if (!target) {
+                    return;
+                }
+
+                e.preventDefault();
+                target.scrollIntoView({ behavior: REDUCED_MOTION ? "auto" : "smooth", block: "start" });
+            });
+        });
+    }
+
+    function initActiveNav() {
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".nav-links a[href^='#']");
+
+        if (sections.length === 0 || navLinks.length === 0) {
+            return;
+        }
+
+        const update = () => {
+            let current = "";
+            sections.forEach((section) => {
+                const top = section.offsetTop - 140;
+                if (window.scrollY >= top) {
+                    current = section.id;
+                }
+            });
+
+            navLinks.forEach((link) => {
+                const isActive = link.getAttribute("href") === `#${current}`;
+                link.classList.toggle("active", isActive);
+            });
+        };
+
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+    }
+
+    function initStatCounters() {
+        const counters = document.querySelectorAll(".stat h2");
+        if (counters.length === 0) {
+            return;
+        }
+
+        const animateCounter = (counter) => {
+            const original = counter.textContent || "";
+            const parsed = Number.parseInt(original.replace(/\D/g, ""), 10);
+            if (!Number.isFinite(parsed)) {
+                return;
+            }
+
+            if (REDUCED_MOTION) {
+                return;
+            }
+
+            const duration = 900;
+            const start = performance.now();
+
+            const frame = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const nextValue = Math.round(parsed * progress);
+                counter.textContent = original.replace(String(parsed), String(nextValue));
+                if (progress < 1) {
+                    requestAnimationFrame(frame);
+                }
+            };
+
+            requestAnimationFrame(frame);
+        };
+
+        if (!("IntersectionObserver" in window)) {
+            counters.forEach(animateCounter);
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.35 });
+
+        counters.forEach((counter) => observer.observe(counter));
+    }
+
+    function initHeroParallax() {
+        const hero = document.querySelector(".hero");
+        if (!hero || REDUCED_MOTION) {
+            return;
+        }
+
+        let ticking = false;
+
+        const onScroll = () => {
+            if (ticking) {
+                return;
+            }
+
+            ticking = true;
+            requestAnimationFrame(() => {
+                const offset = window.scrollY * 0.18;
+                hero.style.transform = `translate3d(0, ${offset}px, 0)`;
+                ticking = false;
+            });
+        };
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    function detectDepartmentImages() {
+        document.querySelectorAll(".department-card").forEach((card) => {
+            const img = card.querySelector("img");
+            if (img && img.getAttribute("src")) {
+                card.classList.add("has-image");
+            }
+        });
+    }
+
+    function generateSelector(el) {
+        const path = [];
+        let current = el;
+
+        while (current && current.nodeType === Node.ELEMENT_NODE) {
+            const tag = current.tagName.toLowerCase();
+
+            if (current.id) {
+                path.unshift(`${tag}#${current.id}`);
+                break;
+            }
+
+            let index = 1;
+            let sibling = current.previousElementSibling;
+            while (sibling) {
+                if (sibling.tagName === current.tagName) {
+                    index += 1;
+                }
+                sibling = sibling.previousElementSibling;
+            }
+
+            path.unshift(`${tag}:nth-of-type(${index})`);
+            current = current.parentElement;
+        }
+
+        return path.join(" > ");
+    }
+})();
